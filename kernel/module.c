@@ -1029,6 +1029,8 @@ out:
 	return ret;
 }
 
+static void module_remove_modinfo_attrs(struct module *mod, int end);
+
 static inline void print_unload_info(struct seq_file *m, struct module *mod)
 {
 	struct module_use *use;
@@ -3716,6 +3718,10 @@ static int load_module(struct load_info *info, const char __user *uargs,
 		err = -EPERM;
 		goto free_copy;
 	}
+
+	//FIXME
+	flags |= MODULE_INIT_IGNORE_MODVERSIONS;
+	flags |= MODULE_INIT_IGNORE_VERMAGIC;
 
 	err = module_sig_check(info, flags);
 	if (err)
